@@ -17,7 +17,7 @@ import bookingRoutes from "./modules/booking/booking.routes.js";
 
 app.use(errorHandler);
 app.use(cors({
-    origin: "http://localhost:3000", 
+    origin: "*", 
     credentials: true,
 }));
 app.use(cookieParser());
