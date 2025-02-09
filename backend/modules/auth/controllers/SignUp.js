@@ -21,6 +21,8 @@ const SignUp = async(req, res) => {
     if (req.file) {
         const uploadResult = await uploadToCloudinary(req.file.buffer);
         image = uploadResult.secure_url;
+    } else {
+        return res.status(500).json({ status: "Failed", message: "Image upload failed. You signup without image. Don't worry after signup you edit your profile image." });
     }
 
     const hanhedPassword = await bcrypt.hash(password, 10);

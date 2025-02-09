@@ -14,7 +14,7 @@ const UpdateUser = async(req, res) => {
         return res.status(404).json({ status: "Failed", message: "User Not Found"});
     }
 
-    if (userId !== req.user.id) {
+    if (req.user.id !== userId) {
         return res.status(403).json({status: 'Failed', message: 'You are not allowed to update this user'})
     }
 
@@ -23,9 +23,14 @@ const UpdateUser = async(req, res) => {
     if (req.file) {
         const uploadResult = await uploadToCloudinary(req.file.buffer);
         image = uploadResult.secure_url;
+    } else {
+        return res.status(500).json({ status: "Failed", message: "Image upload failed. Please try again later." });
     }
 
-    const updateUser = await userModel.findByIdAndUpdate(userId, { $set: { ...req.body, imageUrl: image }}, { new: true, runValidators: true })
+    const updateUser = await userModel.findByIdAndUpdate(userId, 
+        { $set: { ...req.body, imageUrl: image || user.imageUrl } }, 
+        { new: true, runValidators: true }
+    );
 
     res.status(200).json({ status: "Success", message: "User Updated Successfully", updateUser });
 }
