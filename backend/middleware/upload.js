@@ -17,10 +17,10 @@ const uploadToCloudinary = async (buffer) => {
             { folder: 'bike' },
             (error, result) => {
                 if (error) {
-                    console.error("Cloudinary upload error:", error);
+                    // console.error("Cloudinary upload error:", error);
                     reject(error);
                 } else {
-                    console.log("Cloudinary upload result:", result);
+                    // console.log("Cloudinary upload result:", result);
                     resolve(result);
                 }
             }
