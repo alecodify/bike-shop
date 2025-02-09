@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 
 const GetBookings = async (req, res) => {
     const bookingModel = mongoose.model('booking');
+    const userId = req.user.id;
 
-    const bookings = await bookingModel.find({ paymentStatus: "Pending" })
+    const bookings = await bookingModel.find({ user: userId, paymentStatus: "Pending" })
     .populate("services", "service_name description price imageUrl")
     .populate("bikeId", "_id bike_name bike_company_name bike_model bike_registration_number")
     .populate("user", "_id full_name")
